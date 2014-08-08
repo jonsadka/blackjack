@@ -14,5 +14,7 @@ class window.HandView extends Backbone.View
     @$el.html @template @collection
     @$el.append @collection.map (card) ->
       new CardView(model: card).$el
+    # this line shows both scores if either player has an Ace
+    # to show only one, show @collection.scores()[0]
     @$('.score').text @collection.scores()[0]
 
