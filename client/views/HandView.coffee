@@ -6,7 +6,7 @@ class window.HandView extends Backbone.View
   template: _.template '<h2><% if(isDealer){ %>Dealer<% }else{ %>You<% } %> (<span class="score"></span>)</h2>'
 
   initialize: ->
-    @collection.on 'add remove change', => @render()
+    @collection.on 'add remove change hit stand', => @render()
     @render()
 
   render: ->
@@ -14,7 +14,5 @@ class window.HandView extends Backbone.View
     @$el.html @template @collection
     @$el.append @collection.map (card) ->
       new CardView(model: card).$el
-    # this line shows both scores if either player has an Ace
-    # to show only one, show @collection.scores()[0]
     @$('.score').text @collection.scores()[0]
 

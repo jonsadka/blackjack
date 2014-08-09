@@ -13,6 +13,10 @@ class window.AppView extends Backbone.View
   initialize: ->
     @render()
 
+    # @model.on('change:endGame', ->
+    #   @render()
+    # , @)
+
   render: ->
     @$el.children().detach()
     @$el.html @template()
