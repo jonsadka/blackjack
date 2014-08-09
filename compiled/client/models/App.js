@@ -15,20 +15,14 @@
       this.set('deck', deck = new Deck());
       this.set('playerHand', deck.dealPlayer());
       this.set('dealerHand', deck.dealDealer());
-      return this.get('playerHand').on('hit', function() {
-        var dealerhand, dealerscore, newhand, playerhand, playerscore;
-        playerhand = this.get('playerHand');
-        playerscore = playerhand.scores()[0];
-        console.log(playerhand);
-        dealerhand = this.get('dealerHand');
-        dealerscore = dealerhand.scores()[0];
-        if (playerscore > 21 || dealerscore > 21) {
-          console.log("greater than 21");
-          deck.initialize();
-          newhand = deck.dealPlayer();
-          this.set('playerHand', newhand);
-          return console.log(playerhand);
-        }
+      this.get('playerHand').on('stand', function() {
+        return this.get('dealerHand').dealerTurn();
+      }, this);
+      this.get('playerHand').on('endgame', function() {
+        return console.log('You Lost, Please refresh the page to play again');
+      }, this);
+      return this.get('dealerHand').on('endgame', function() {
+        return console.log('You Won, Please refresh the page to play again');
       }, this);
     };
 

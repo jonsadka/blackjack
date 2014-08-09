@@ -18,27 +18,51 @@
     };
 
     Hand.prototype.hit = function() {
-      this.add(this.deck.pop()).last();
-      return this.trigger('hit', this);
+      return this.add(this.deck.pop()).last();
     };
 
     Hand.prototype.stand = function() {
-      return this.trigger('stand', this);
+      return this.trigger('stand');
+    };
+
+    Hand.prototype.dealerTurn = function() {
+      var card;
+      card = this.models[0];
+      if (card.get('revealed') === false) {
+        card.flip();
+      } else {
+        this.hit();
+      }
+      if (this.scores() < 17) {
+        return this.dealerTurn();
+      }
     };
 
     Hand.prototype.scores = function() {
-      var hasAce, score;
+      var card, firstCardValue, hasAce, score;
       hasAce = this.reduce(function(memo, card) {
         return memo || card.get('value') === 1;
       }, false);
       score = this.reduce(function(score, card) {
         return score + (card.get('revealed') ? card.get('value') : 0);
       }, 0);
-      if (hasAce) {
-        return [score, score + 10];
+      card = this.models[0];
+      firstCardValue = card.get('value');
+      if (firstCardValue === 1 && card.get("revealed") === true) {
+        if (score + 10 < 21) {
+          score = score + 10;
+        }
+      } else if ((firstCardValue === 1) && (card.get("revealed") === false)) {
+        console.log("sdf");
       } else {
-        return [score];
+        if (hasAce && score + 10 < 21) {
+          score = score + 10;
+        }
       }
+      if (score > 21) {
+        this.trigger('endgame');
+      }
+      return score;
     };
 
     return Hand;

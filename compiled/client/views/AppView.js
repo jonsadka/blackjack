@@ -22,7 +22,10 @@
     };
 
     AppView.prototype.initialize = function() {
-      return this.render();
+      this.render();
+      return this.model.on('change:endGame', function() {
+        return this.render();
+      }, this);
     };
 
     AppView.prototype.render = function() {
