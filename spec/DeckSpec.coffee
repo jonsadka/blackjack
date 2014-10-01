@@ -15,3 +15,11 @@ describe 'deck', ->
       assert.strictEqual deck.length, 49
       hand.playable && (assert.strictEqual deck.last(), hand.hit())
       hand.playable && (assert.strictEqual deck.length, 48)
+
+  describe 'stand', ->
+    it "should not do shit", ->
+      assert.strictEqual deck.length, 50
+      assert.strictEqual deck.last(), hand.stand()
+      assert.strictEqual deck.length, 50
+      hand.playable && (assert.strictEqual deck.last(), hand.stand())
+      hand.playable && (assert.strictEqual deck.length, 50)

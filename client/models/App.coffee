@@ -63,5 +63,3 @@ class window.App extends Backbone.Model
       @trigger 'win:dealer'
     else
       @trigger 'push'
-
-###
